@@ -28,6 +28,7 @@ type Board struct {
 
 // State 盤面の構造体
 type State struct {
+	Directions []Direction
 	Board Board
 	Goal *Position
 	Snake Snake
@@ -137,7 +138,10 @@ func (s *State) Move(d Direction) (*State,error) {
 		return nil, fmt.Errorf("Queue Push Error: %w", err)
 	}
 
+	newDirections := append(s.Directions, d)
+
 	state.Snake = Snake(newSnakeQueue)
+	state.Directions = newDirections
 
 	return state, nil
 }
