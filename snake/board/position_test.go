@@ -3,8 +3,8 @@ package board
 import "testing"
 
 type testPositionEqual struct {
-	aPosition *position
-	bPosition *position
+	aPosition *Position
+	bPosition *Position
 	expect bool
 	description string
 }
@@ -12,11 +12,11 @@ type testPositionEqual struct {
 func TestPositionEqual(t *testing.T) {
 	values := []*testPositionEqual{
 		{
-			aPosition: &position{
+			aPosition: &Position{
 				x: 0,
 				y: 0,
 			},
-			bPosition: &position{
+			bPosition: &Position{
 				x: 0,
 				y: 0,
 			},
@@ -24,11 +24,11 @@ func TestPositionEqual(t *testing.T) {
 			description: "both same case",
 		},
 		{
-			aPosition: &position{
+			aPosition: &Position{
 				x: 0,
 				y: 1,
 			},
-			bPosition: &position{
+			bPosition: &Position{
 				x: 0,
 				y: 0,
 			},
@@ -36,11 +36,11 @@ func TestPositionEqual(t *testing.T) {
 			description: "x different case",
 		},
 		{
-			aPosition: &position{
+			aPosition: &Position{
 				x: 1,
 				y: 0,
 			},
-			bPosition: &position{
+			bPosition: &Position{
 				x: 0,
 				y: 0,
 			},
@@ -48,11 +48,11 @@ func TestPositionEqual(t *testing.T) {
 			description: "y different case",
 		},
 		{
-			aPosition: &position{
+			aPosition: &Position{
 				x: 1,
 				y: 1,
 			},
-			bPosition: &position{
+			bPosition: &Position{
 				x: 0,
 				y: 0,
 			},
