@@ -411,3 +411,83 @@ func TestStateMove(t *testing.T)  {
 		}
 	}
 }
+
+func TestStateString(t *testing.T) {
+	type testState struct {
+		state *State
+		expect string
+		description string
+	}
+	values := []*testState{
+		{
+			state: &State{
+				Board: Board{
+					Width: 3,
+					Height: 3,
+				},
+				Goal: &Position{
+					x: 0,
+					y: 2,
+				},
+				Snake: Snake{
+					&Position{
+						x: 0,
+						y: 0,
+					},
+					&Position{
+						x: 1,
+						y: 0,
+					},
+					&Position{
+						x: 1,
+						y: 1,
+					},
+				},
+			},
+			expect: `蛇蛇　
+　頭　
+ゴ　　
+`,
+			description: "nomal state",
+		},
+		{
+			state: &State{
+				Board: Board{
+					Width: 3,
+					Height: 3,
+				},
+				Goal: &Position{
+					x: 1,
+					y: 1,
+				},
+				Snake: Snake{
+					&Position{
+						x: 0,
+						y: 0,
+					},
+					&Position{
+						x: 1,
+						y: 0,
+					},
+					&Position{
+						x: 1,
+						y: 1,
+					},
+				},
+			},
+			expect: `蛇蛇　
+　頭　
+　　　
+`,
+			description: "state which head is on goal",
+		},
+	}
+
+	for _,v := range values {
+		res := v.state.String()
+
+		if res != v.expect {
+			t.Fatalf(v.description + " Unexpected Value: %s", res)
+		}
+	}
+}

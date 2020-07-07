@@ -141,3 +141,38 @@ func (s *State) Move(d Direction) (*State,error) {
 
 	return state, nil
 }
+
+func (s *State) String() string {
+	array := make([][]string, s.Board.Height)
+	for i := range array {
+		lineSlice := make([]string, s.Board.Width)
+		for i := range lineSlice {
+			lineSlice[i] = "　"
+		}
+		array[i] = lineSlice
+	}
+
+	array[s.Goal.y][s.Goal.x] = "ゴ"
+
+	for i,v := range s.Snake {
+		p, ok := v.(*Position)
+		if !ok {
+			return ""
+		}
+		if i == len(s.Snake)-1 {
+			array[p.y][p.x] = "頭"
+		} else {
+			array[p.y][p.x] = "蛇"
+		}
+	}
+
+	str := make([]byte, 0, s.Board.Height*(s.Board.Width+1)*8)
+	for _,v := range array {
+		for _,val := range v {
+			str = append(str, val...)
+		}
+		str = append(str, '\n')
+	}
+
+	return string(str)
+}
