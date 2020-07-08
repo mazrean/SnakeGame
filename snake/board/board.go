@@ -7,17 +7,17 @@ import (
 )
 
 // Direction 移動の種類
-type Direction int
+type Direction string
 
 const (
 	// UP 上移動
-	UP Direction = iota
+	UP Direction = "↑"
 	// DOWN 下移動
-	DOWN
+	DOWN = "↓"
 	// RIGHT 右移動
-	RIGHT
+	RIGHT = "→"
 	// LEFT 左移動
-	LEFT
+	LEFT = "←"
 )
 
 // Board 面の
