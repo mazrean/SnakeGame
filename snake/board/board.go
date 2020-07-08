@@ -29,7 +29,7 @@ type Board struct {
 // State 盤面の構造体
 type State struct {
 	Directions []Direction
-	Board Board
+	Board *Board
 	Goal *Position
 	Snake Snake
 }
@@ -57,29 +57,29 @@ func (s *State) AbleDirections() ([]Direction, error) {
 		}{
 			{
 				head: &Position{
-					x: head.x,
-					y: head.y+1,
+					X: head.X,
+					Y: head.Y+1,
 				},
 				direction: UP,
 			},
 			{
 				head: &Position{
-					x: head.x,
-					y: head.y-1,
+					X: head.X,
+					Y: head.Y-1,
 				},
 				direction: DOWN,
 			},
 			{
 				head: &Position{
-					x: head.x+1,
-					y: head.y,
+					X: head.X+1,
+					Y: head.Y,
 				},
 				direction: RIGHT,
 			},
 			{
 				head: &Position{
-					x: head.x-1,
-					y: head.y,
+					X: head.X-1,
+					Y: head.Y,
 				},
 				direction: LEFT,
 			},
@@ -87,7 +87,7 @@ func (s *State) AbleDirections() ([]Direction, error) {
 
 		directions := make([]Direction, 0, 4)
 		for _,headDir := range headDirs {
-			if headDir.head.x >= s.Board.Width || headDir.head.x < 0 || headDir.head.y >= s.Board.Height || headDir.head.y < 0 {
+			if headDir.head.X >= s.Board.Width || headDir.head.X < 0 || headDir.head.Y >= s.Board.Height || headDir.head.Y < 0 {
 				continue
 			}
 
@@ -114,18 +114,18 @@ func (s *State) Move(d Direction) (*State,error) {
 	}
 
 	newHead := &Position{
-		x: nowHead.x,
-		y: nowHead.y,
+		X: nowHead.X,
+		Y: nowHead.Y,
 	}
 	switch d {
 	case UP:
-		newHead.y--
+		newHead.Y--
 	case DOWN:
-		newHead.y++
+		newHead.Y++
 	case RIGHT:
-		newHead.x++
+		newHead.X++
 	case LEFT:
-		newHead.x--
+		newHead.X--
 	}
 
 	newSnakeQueue := collection.Queue(state.Snake)
@@ -156,7 +156,7 @@ func (s *State) String() string {
 		array[i] = lineSlice
 	}
 
-	array[s.Goal.y][s.Goal.x] = "ゴ"
+	array[s.Goal.Y][s.Goal.X] = "ゴ"
 
 	for i,v := range s.Snake {
 		p, ok := v.(*Position)
@@ -164,9 +164,9 @@ func (s *State) String() string {
 			return ""
 		}
 		if i == len(s.Snake)-1 {
-			array[p.y][p.x] = "頭"
+			array[p.Y][p.X] = "頭"
 		} else {
-			array[p.y][p.x] = "蛇"
+			array[p.Y][p.X] = "蛇"
 		}
 	}
 
