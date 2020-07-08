@@ -11,8 +11,11 @@ import (
 // SingleSnake シングルスレッドのヘビゲームソルバー
 func SingleSnake(searchType string, s *board.State) ([]board.Direction, error) {
 	var collection col.Collection
-	if searchType == "queue" {
+	switch searchType {
+	case "bfs":
 		collection = new(col.Queue)
+	default:
+		return nil, errors.New("Invalid Search Type")
 	}
 
 	isGoal, err := Check(s, collection)
@@ -36,7 +39,7 @@ func SingleSnake(searchType string, s *board.State) ([]board.Direction, error) {
 			return nil, errors.New("Unexpected Type Parse Error")
 		}
 
-		isGoal, err = NodeTask(&nd.state, nd.direction, collection)
+		isGoal, err = NodeTask(nd.state, nd.direction, collection)
 		if err != nil {
 			return nil, fmt.Errorf("NodeTask Error: %w", err)
 		}

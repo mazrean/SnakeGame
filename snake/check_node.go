@@ -40,7 +40,7 @@ func Check(s *board.State, c collection.Collection) (bool, error) {
 
 	for _,d := range directions {
 		node := &node{
-			state: *s,
+			state: s,
 			direction: d,
 		}
 		err = c.Push(node)
