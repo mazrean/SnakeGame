@@ -28,6 +28,7 @@ type Board struct {
 
 // State 盤面の構造体
 type State struct {
+	Turn int
 	Directions []Direction
 	Board *Board
 	Goal *Position
@@ -140,6 +141,7 @@ func (s *State) Move(d Direction) (*State,error) {
 
 	newDirections := append(s.Directions, d)
 
+	state.Turn = s.Turn + 1
 	state.Snake = Snake(newSnakeQueue)
 	state.Directions = newDirections
 
@@ -171,6 +173,7 @@ func (s *State) String() string {
 	}
 
 	str := make([]byte, 0, s.Board.Height*(s.Board.Width+1)*8)
+	str = append(str, fmt.Sprintf("Turn: %d\n", s.Turn)...)
 	for _,v := range array {
 		for _,val := range v {
 			str = append(str, val...)

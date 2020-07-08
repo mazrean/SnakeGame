@@ -421,6 +421,7 @@ func TestStateString(t *testing.T) {
 	values := []*testState{
 		{
 			state: &State{
+				Turn: 0,
 				Board: &Board{
 					Width: 3,
 					Height: 3,
@@ -444,7 +445,8 @@ func TestStateString(t *testing.T) {
 					},
 				},
 			},
-			expect: `蛇蛇　
+			expect: `Turn: 0
+蛇蛇　
 　頭　
 ゴ　　
 `,
@@ -452,6 +454,7 @@ func TestStateString(t *testing.T) {
 		},
 		{
 			state: &State{
+				Turn: 0,
 				Board: &Board{
 					Width: 3,
 					Height: 3,
@@ -475,7 +478,8 @@ func TestStateString(t *testing.T) {
 					},
 				},
 			},
-			expect: `蛇蛇　
+			expect: `Turn: 0
+蛇蛇　
 　頭　
 　　　
 `,

@@ -73,6 +73,7 @@ func ReadSnake() (*bd.State, error) {
 	}
 
 	state := &bd.State{
+		Turn: 0,
 		Directions: []bd.Direction{},
 		Board: board,
 		Goal: goal,

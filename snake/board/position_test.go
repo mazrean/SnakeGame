@@ -13,48 +13,48 @@ func TestPositionEqual(t *testing.T) {
 	values := []*testPositionEqual{
 		{
 			aPosition: &Position{
-				x: 0,
-				y: 0,
+				X: 0,
+				Y: 0,
 			},
 			bPosition: &Position{
-				x: 0,
-				y: 0,
+				X: 0,
+				Y: 0,
 			},
 			expect: true,
 			description: "both same case",
 		},
 		{
 			aPosition: &Position{
-				x: 0,
-				y: 1,
+				X: 0,
+				Y: 1,
 			},
 			bPosition: &Position{
-				x: 0,
-				y: 0,
+				X: 0,
+				Y: 0,
 			},
 			expect: false,
 			description: "x different case",
 		},
 		{
 			aPosition: &Position{
-				x: 1,
-				y: 0,
+				X: 1,
+				Y: 0,
 			},
 			bPosition: &Position{
-				x: 0,
-				y: 0,
+				X: 0,
+				Y: 0,
 			},
 			expect: false,
 			description: "y different case",
 		},
 		{
 			aPosition: &Position{
-				x: 1,
-				y: 1,
+				X: 1,
+				Y: 1,
 			},
 			bPosition: &Position{
-				x: 0,
-				y: 0,
+				X: 0,
+				Y: 0,
 			},
 			expect: false,
 			description: "both different case",
