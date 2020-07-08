@@ -23,7 +23,7 @@ func (s *Snake) Head() (*Position, error) {
 
 // Search 蛇の体が位置pにあるか探索
 func (s *Snake) Search(p *Position) (bool, error) {
-	for _,interfaceVal := range *s {
+	for _,interfaceVal := range (*s)[1:] {
 		val, ok := interfaceVal.(*Position)
 		if !ok {
 			return false, errors.New("Unexpected Parse Type Error")
