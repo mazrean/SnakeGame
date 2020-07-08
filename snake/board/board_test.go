@@ -13,21 +13,21 @@ func TestStateIsGoal(t *testing.T) {
 		{
 			state: &State{
 				Goal: &Position{
-					x: 0,
-					y: 0,
+					X: 0,
+					Y: 0,
 				},
 				Snake: Snake{
 					&Position{
-						x: 1,
-						y: 1,
+						X: 1,
+						Y: 1,
 					},
 					&Position{
-						x: 1,
-						y: 0,
+						X: 1,
+						Y: 0,
 					},
 					&Position{
-						x: 0,
-						y: 0,
+						X: 0,
+						Y: 0,
 					},
 				},
 			},
@@ -37,21 +37,21 @@ func TestStateIsGoal(t *testing.T) {
 		{
 			state: &State{
 				Goal: &Position{
-					x: 0,
-					y: 0,
+					X: 0,
+					Y: 0,
 				},
 				Snake: Snake{
 					&Position{
-						x: 2,
-						y: 1,
+						X: 2,
+						Y: 1,
 					},
 					&Position{
-						x: 1,
-						y: 1,
+						X: 1,
+						Y: 1,
 					},
 					&Position{
-						x: 1,
-						y: 0,
+						X: 1,
+						Y: 0,
 					},
 				},
 			},
@@ -61,21 +61,21 @@ func TestStateIsGoal(t *testing.T) {
 		{
 			state: &State{
 				Goal: &Position{
-					x: 1,
-					y: 0,
+					X: 1,
+					Y: 0,
 				},
 				Snake: Snake{
 					&Position{
-						x: 1,
-						y: 1,
+						X: 1,
+						Y: 1,
 					},
 					&Position{
-						x: 1,
-						y: 0,
+						X: 1,
+						Y: 0,
 					},
 					&Position{
-						x: 0,
-						y: 0,
+						X: 0,
+						Y: 0,
 					},
 				},
 			},
@@ -106,22 +106,22 @@ func TestStateAbleDirctions(t *testing.T) {
 	values := []*testState {
 		{
 			state: &State{
-				Board: Board{
+				Board: &Board{
 					Width: 3,
 					Height: 3,
 				},
 				Snake: Snake{
 					&Position{
-						x: 2,
-						y: 2,
+						X: 2,
+						Y: 2,
 					},
 					&Position{
-						x: 2,
-						y: 1,
+						X: 2,
+						Y: 1,
 					},
 					&Position{
-						x: 1,
-						y: 1,
+						X: 1,
+						Y: 1,
 					},
 				},
 			},
@@ -130,22 +130,22 @@ func TestStateAbleDirctions(t *testing.T) {
 		},
 		{
 			state: &State{
-				Board: Board{
+				Board: &Board{
 					Width: 3,
 					Height: 3,
 				},
 				Snake: Snake{
 					&Position{
-						x: 1,
-						y: 2,
+						X: 1,
+						Y: 2,
 					},
 					&Position{
-						x: 1,
-						y: 1,
+						X: 1,
+						Y: 1,
 					},
 					&Position{
-						x: 1,
-						y: 0,
+						X: 1,
+						Y: 0,
 					},
 				},
 			},
@@ -154,22 +154,22 @@ func TestStateAbleDirctions(t *testing.T) {
 		},
 		{
 			state: &State{
-				Board: Board{
+				Board: &Board{
 					Width: 3,
 					Height: 3,
 				},
 				Snake: Snake{
 					&Position{
-						x: 1,
-						y: 0,
+						X: 1,
+						Y: 0,
 					},
 					&Position{
-						x: 1,
-						y: 1,
+						X: 1,
+						Y: 1,
 					},
 					&Position{
-						x: 0,
-						y: 1,
+						X: 0,
+						Y: 1,
 					},
 				},
 			},
@@ -178,22 +178,22 @@ func TestStateAbleDirctions(t *testing.T) {
 		},
 		{
 			state: &State{
-				Board: Board{
+				Board: &Board{
 					Width: 3,
 					Height: 3,
 				},
 				Snake: Snake{
 					&Position{
-						x: 1,
-						y: 2,
+						X: 1,
+						Y: 2,
 					},
 					&Position{
-						x: 1,
-						y: 1,
+						X: 1,
+						Y: 1,
 					},
 					&Position{
-						x: 2,
-						y: 1,
+						X: 2,
+						Y: 1,
 					},
 				},
 			},
@@ -202,22 +202,22 @@ func TestStateAbleDirctions(t *testing.T) {
 		},
 		{
 			state: &State{
-				Board: Board{
+				Board: &Board{
 					Width: 3,
 					Height: 3,
 				},
 				Snake: Snake{
 					&Position{
-						x: 1,
-						y: 0,
+						X: 1,
+						Y: 0,
 					},
 					&Position{
-						x: 1,
-						y: 1,
+						X: 1,
+						Y: 1,
 					},
 					&Position{
-						x: 1,
-						y: 2,
+						X: 1,
+						Y: 2,
 					},
 				},
 			},
@@ -261,32 +261,32 @@ func TestStateMove(t *testing.T)  {
 			state: &State{
 				Snake: Snake{
 					&Position{
-						x: 0,
-						y: 2,
+						X: 0,
+						Y: 2,
 					},
 					&Position{
-						x: 1,
-						y: 2,
+						X: 1,
+						Y: 2,
 					},
 					&Position{
-						x: 1,
-						y: 1,
+						X: 1,
+						Y: 1,
 					},
 				},
 			},
 			direction: UP,
 			expect: &Snake{
 				&Position{
-					x: 1,
-					y: 2,
+					X: 1,
+					Y: 2,
 				},
 				&Position{
-					x: 1,
-					y: 1,
+					X: 1,
+					Y: 1,
 				},
 				&Position{
-					x: 1,
-					y: 0,
+					X: 1,
+					Y: 0,
 				},
 			},
 			description: "up move",
@@ -295,32 +295,32 @@ func TestStateMove(t *testing.T)  {
 			state: &State{
 				Snake: Snake{
 					&Position{
-						x: 0,
-						y: 2,
+						X: 0,
+						Y: 2,
 					},
 					&Position{
-						x: 1,
-						y: 2,
+						X: 1,
+						Y: 2,
 					},
 					&Position{
-						x: 1,
-						y: 1,
+						X: 1,
+						Y: 1,
 					},
 				},
 			},
 			direction: RIGHT,
 			expect: &Snake{
 				&Position{
-					x: 1,
-					y: 2,
+					X: 1,
+					Y: 2,
 				},
 				&Position{
-					x: 1,
-					y: 1,
+					X: 1,
+					Y: 1,
 				},
 				&Position{
-					x: 2,
-					y: 1,
+					X: 2,
+					Y: 1,
 				},
 			},
 			description: "right move",
@@ -329,32 +329,32 @@ func TestStateMove(t *testing.T)  {
 			state: &State{
 				Snake: Snake{
 					&Position{
-						x: 0,
-						y: 2,
+						X: 0,
+						Y: 2,
 					},
 					&Position{
-						x: 1,
-						y: 2,
+						X: 1,
+						Y: 2,
 					},
 					&Position{
-						x: 1,
-						y: 1,
+						X: 1,
+						Y: 1,
 					},
 				},
 			},
 			direction: LEFT,
 			expect: &Snake{
 				&Position{
-					x: 1,
-					y: 2,
+					X: 1,
+					Y: 2,
 				},
 				&Position{
-					x: 1,
-					y: 1,
+					X: 1,
+					Y: 1,
 				},
 				&Position{
-					x: 0,
-					y: 1,
+					X: 0,
+					Y: 1,
 				},
 			},
 			description: "left move",
@@ -363,32 +363,32 @@ func TestStateMove(t *testing.T)  {
 			state: &State{
 				Snake: Snake{
 					&Position{
-						x: 0,
-						y: 0,
+						X: 0,
+						Y: 0,
 					},
 					&Position{
-						x: 1,
-						y: 0,
+						X: 1,
+						Y: 0,
 					},
 					&Position{
-						x: 1,
-						y: 1,
+						X: 1,
+						Y: 1,
 					},
 				},
 			},
 			direction: DOWN,
 			expect: &Snake{
 				&Position{
-					x: 1,
-					y: 0,
+					X: 1,
+					Y: 0,
 				},
 				&Position{
-					x: 1,
-					y: 1,
+					X: 1,
+					Y: 1,
 				},
 				&Position{
-					x: 1,
-					y: 2,
+					X: 1,
+					Y: 2,
 				},
 			},
 			description: "down move",
@@ -421,26 +421,26 @@ func TestStateString(t *testing.T) {
 	values := []*testState{
 		{
 			state: &State{
-				Board: Board{
+				Board: &Board{
 					Width: 3,
 					Height: 3,
 				},
 				Goal: &Position{
-					x: 0,
-					y: 2,
+					X: 0,
+					Y: 2,
 				},
 				Snake: Snake{
 					&Position{
-						x: 0,
-						y: 0,
+						X: 0,
+						Y: 0,
 					},
 					&Position{
-						x: 1,
-						y: 0,
+						X: 1,
+						Y: 0,
 					},
 					&Position{
-						x: 1,
-						y: 1,
+						X: 1,
+						Y: 1,
 					},
 				},
 			},
@@ -452,26 +452,26 @@ func TestStateString(t *testing.T) {
 		},
 		{
 			state: &State{
-				Board: Board{
+				Board: &Board{
 					Width: 3,
 					Height: 3,
 				},
 				Goal: &Position{
-					x: 1,
-					y: 1,
+					X: 1,
+					Y: 1,
 				},
 				Snake: Snake{
 					&Position{
-						x: 0,
-						y: 0,
+						X: 0,
+						Y: 0,
 					},
 					&Position{
-						x: 1,
-						y: 0,
+						X: 1,
+						Y: 0,
 					},
 					&Position{
-						x: 1,
-						y: 1,
+						X: 1,
+						Y: 1,
 					},
 				},
 			},
