@@ -9,13 +9,13 @@ import (
 )
 
 // SingleSnake シングルスレッドのヘビゲームソルバー
-func SingleSnake(searchType string, s board.State) ([]board.Direction, error) {
+func SingleSnake(searchType string, s *board.State) ([]board.Direction, error) {
 	var collection col.Collection
 	if searchType == "queue" {
 		collection = new(col.Queue)
 	}
 
-	isGoal, err := Check(&s, collection)
+	isGoal, err := Check(s, collection)
 	if err != nil {
 		return nil, fmt.Errorf("Check Is Goal Error: %w", err)
 	}
