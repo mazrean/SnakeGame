@@ -8,20 +8,20 @@ import (
 )
 
 // NodeTask 各Nodeで行う処理
-func NodeTask(s *board.State, d board.Direction, c collection.Collection) (bool, error) {
+func NodeTask(s *board.State, d board.Direction, c collection.Collection) (bool, []board.Direction, error) {
 	state, err := s.Move(d)
 	if err != nil {
-		return false, fmt.Errorf("Snake Move Error: %w", err)
+		return false, nil, fmt.Errorf("Snake Move Error: %w", err)
 	}
+	fmt.Printf("%#v\n%#v\n", s, state)
 
 	isGoal, err :=Check(state, c)
 	if err != nil {
-		return false, err
+		return false, nil, err
 	}
 
-	return isGoal, nil
+	return isGoal, state.Directions, nil
 }
-
 
 // Check Nodeのチェック
 func Check(s *board.State, c collection.Collection) (bool, error) {

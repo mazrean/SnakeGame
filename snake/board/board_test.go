@@ -16,7 +16,7 @@ func TestStateIsGoal(t *testing.T) {
 					X: 0,
 					Y: 0,
 				},
-				Snake: Snake{
+				Snake: &Snake{
 					&Position{
 						X: 1,
 						Y: 1,
@@ -40,7 +40,7 @@ func TestStateIsGoal(t *testing.T) {
 					X: 0,
 					Y: 0,
 				},
-				Snake: Snake{
+				Snake: &Snake{
 					&Position{
 						X: 2,
 						Y: 1,
@@ -64,7 +64,7 @@ func TestStateIsGoal(t *testing.T) {
 					X: 1,
 					Y: 0,
 				},
-				Snake: Snake{
+				Snake: &Snake{
 					&Position{
 						X: 1,
 						Y: 1,
@@ -110,7 +110,7 @@ func TestStateAbleDirctions(t *testing.T) {
 					Width: 3,
 					Height: 3,
 				},
-				Snake: Snake{
+				Snake: &Snake{
 					&Position{
 						X: 2,
 						Y: 2,
@@ -134,7 +134,7 @@ func TestStateAbleDirctions(t *testing.T) {
 					Width: 3,
 					Height: 3,
 				},
-				Snake: Snake{
+				Snake: &Snake{
 					&Position{
 						X: 1,
 						Y: 2,
@@ -158,7 +158,7 @@ func TestStateAbleDirctions(t *testing.T) {
 					Width: 3,
 					Height: 3,
 				},
-				Snake: Snake{
+				Snake: &Snake{
 					&Position{
 						X: 1,
 						Y: 0,
@@ -182,7 +182,7 @@ func TestStateAbleDirctions(t *testing.T) {
 					Width: 3,
 					Height: 3,
 				},
-				Snake: Snake{
+				Snake: &Snake{
 					&Position{
 						X: 1,
 						Y: 2,
@@ -206,7 +206,7 @@ func TestStateAbleDirctions(t *testing.T) {
 					Width: 3,
 					Height: 3,
 				},
-				Snake: Snake{
+				Snake: &Snake{
 					&Position{
 						X: 1,
 						Y: 0,
@@ -259,7 +259,7 @@ func TestStateMove(t *testing.T)  {
 	values := []*testState{
 		{
 			state: &State{
-				Snake: Snake{
+				Snake: &Snake{
 					&Position{
 						X: 0,
 						Y: 2,
@@ -293,7 +293,7 @@ func TestStateMove(t *testing.T)  {
 		},
 		{
 			state: &State{
-				Snake: Snake{
+				Snake: &Snake{
 					&Position{
 						X: 0,
 						Y: 2,
@@ -327,7 +327,7 @@ func TestStateMove(t *testing.T)  {
 		},
 		{
 			state: &State{
-				Snake: Snake{
+				Snake: &Snake{
 					&Position{
 						X: 0,
 						Y: 2,
@@ -361,7 +361,7 @@ func TestStateMove(t *testing.T)  {
 		},
 		{
 			state: &State{
-				Snake: Snake{
+				Snake: &Snake{
 					&Position{
 						X: 0,
 						Y: 0,
@@ -401,13 +401,13 @@ func TestStateMove(t *testing.T)  {
 			t.Fatalf(v.description + " Error: %s", err.Error())
 		}
 
-		isEqual,err := v.expect.equal(&res.Snake)
+		isEqual,err := v.expect.equal(res.Snake)
 		if err != nil {
 			t.Fatalf(v.description + " Error: %s", err.Error())
 		}
 
 		if !isEqual {
-			t.Fatalf(v.description + "Unexpected Value: %#v", res.Snake)
+			t.Fatalf(v.description + " Unexpected Value: %#v", res.Snake)
 		}
 	}
 }
@@ -430,7 +430,7 @@ func TestStateString(t *testing.T) {
 					X: 0,
 					Y: 2,
 				},
-				Snake: Snake{
+				Snake: &Snake{
 					&Position{
 						X: 0,
 						Y: 0,
@@ -463,7 +463,7 @@ func TestStateString(t *testing.T) {
 					X: 1,
 					Y: 1,
 				},
-				Snake: Snake{
+				Snake: &Snake{
 					&Position{
 						X: 0,
 						Y: 0,

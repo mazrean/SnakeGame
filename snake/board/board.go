@@ -2,8 +2,6 @@ package board
 
 import (
 	"fmt"
-
-	"github.com/mazrean/SnakeGame/snake/collection"
 )
 
 // Direction 移動の種類
@@ -13,11 +11,11 @@ const (
 	// UP 上移動
 	UP Direction = "↑"
 	// DOWN 下移動
-	DOWN = "↓"
+	DOWN Direction = "↓"
 	// RIGHT 右移動
-	RIGHT = "→"
+	RIGHT Direction = "→"
 	// LEFT 左移動
-	LEFT = "←"
+	LEFT Direction = "←"
 )
 
 // Board 面の
@@ -32,7 +30,7 @@ type State struct {
 	Directions []Direction
 	Board *Board
 	Goal *Position
-	Snake Snake
+	Snake *Snake
 }
 
 // IsGoal ゴールに到達したかのチェック
@@ -59,14 +57,14 @@ func (s *State) AbleDirections() ([]Direction, error) {
 			{
 				head: &Position{
 					X: head.X,
-					Y: head.Y+1,
+					Y: head.Y-1,
 				},
 				direction: UP,
 			},
 			{
 				head: &Position{
 					X: head.X,
-					Y: head.Y-1,
+					Y: head.Y+1,
 				},
 				direction: DOWN,
 			},
@@ -107,7 +105,8 @@ func (s *State) AbleDirections() ([]Direction, error) {
 
 // Move 状態の遷移
 func (s *State) Move(d Direction) (*State,error) {
-	state := &(*s)
+	stateValue := *s
+	state := &stateValue
 
 	nowHead,err := s.Snake.Head()
 	if err != nil {
@@ -129,21 +128,18 @@ func (s *State) Move(d Direction) (*State,error) {
 		newHead.X--
 	}
 
-	newSnakeQueue := collection.Queue(state.Snake)
-	_, err = newSnakeQueue.Pop()
+	snake, err := state.Snake.Move(newHead)
 	if err != nil {
-		return nil, fmt.Errorf("Queue Pop Error: %w", err)
-	}
-	err = newSnakeQueue.Push(newHead)
-	if err != nil {
-		return nil, fmt.Errorf("Queue Push Error: %w", err)
+		return nil, fmt.Errorf("Snake Move Error: %w", err)
 	}
 
 	newDirections := append(s.Directions, d)
 
 	state.Turn = s.Turn + 1
-	state.Snake = Snake(newSnakeQueue)
 	state.Directions = newDirections
+	state.Snake = snake
+	fmt.Println(s)
+	fmt.Println(state)
 
 	return state, nil
 }
@@ -160,15 +156,11 @@ func (s *State) String() string {
 
 	array[s.Goal.Y][s.Goal.X] = "ゴ"
 
-	for i,v := range s.Snake {
-		p, ok := v.(*Position)
-		if !ok {
-			return ""
-		}
-		if i == len(s.Snake)-1 {
-			array[p.Y][p.X] = "頭"
+	for i,v := range *s.Snake {
+		if i == len(*s.Snake)-1 {
+			array[v.Y][v.X] = "頭"
 		} else {
-			array[p.Y][p.X] = "蛇"
+			array[v.Y][v.X] = "蛇"
 		}
 	}
 

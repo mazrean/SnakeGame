@@ -8,7 +8,6 @@ import (
 	"strconv"
 
 	bd "github.com/mazrean/SnakeGame/snake/board"
-	"github.com/mazrean/SnakeGame/snake/collection"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -48,7 +47,7 @@ func ReadSnake() (*bd.State, error) {
 		Y: goalY,
 	}
 
-	snakeQueue := collection.Queue{}
+	snake := bd.Snake{}
 	// しっぽから頭へ順に蛇の位置
 	for i := 0; i < snakeLen; i++ {
 		bodyX, err := nextInt()
@@ -66,7 +65,7 @@ func ReadSnake() (*bd.State, error) {
 			Y: bodyY,
 		}
 
-		err = snakeQueue.Push(position)
+		snake = append(snake, position)
 		if err != nil {
 			return nil, fmt.Errorf("Snake Push Error: %w", err)
 		}
@@ -77,7 +76,7 @@ func ReadSnake() (*bd.State, error) {
 		Directions: []bd.Direction{},
 		Board: board,
 		Goal: goal,
-		Snake: bd.Snake(snakeQueue),
+		Snake: &snake,
 	}
 
 	return state, nil
