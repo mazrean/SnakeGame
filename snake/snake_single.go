@@ -10,6 +10,25 @@ import (
 
 // SingleSnake シングルスレッドのヘビゲームソルバー
 func SingleSnake(searchType string, s *board.State) ([]board.Direction, error) {
+	cpuf, err := os.Create("cpu.prof")
+	if err != nil {
+		return nil, fmt.Errorf("CPU File Create Error: %w", err)
+	}
+	defer cpuf.Close()
+
+	memf, err := os.Create("mem.prof")
+	if err != nil {
+		return nil, fmt.Errorf("Memory File Create Error: %w", err)
+	}
+
+	pprof.StartCPUProfile(cpuf)
+	defer pprof.StopCPUProfile()
+
+	defer func() {
+		pprof.Lookup("heap").WriteTo(memf, 0)
+		memf.Close()
+	}()
+
 	var collection col.Collection
 	switch searchType {
 	case "bfs":
