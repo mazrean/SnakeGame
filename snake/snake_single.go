@@ -6,6 +6,7 @@ import (
 
 	"github.com/mazrean/SnakeGame/snake/board"
 	col "github.com/mazrean/SnakeGame/snake/collection"
+	"github.com/mazrean/SnakeGame/snake/heuristic"
 )
 
 // NOT_FOUND 答えが見つからなかったときのエラー
@@ -29,6 +30,8 @@ func SingleSnake(searchType string, s *board.State, deps ...int) (*[]board.Direc
 				return directions, nil
 			}
 		}
+	case "A*":
+		collection = col.NewPriorityQueue(heuristic.Manhattan)
 	default:
 		return nil, errors.New("Invalid Search Type")
 	}
