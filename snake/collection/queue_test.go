@@ -11,22 +11,18 @@ var nodes = []*Node{
 	{
 		State: &board.State{},
 		Direction: board.UP,
-		Directions: []*board.Direction{},
 	},
 	{
 		State: &board.State{},
 		Direction: board.DOWN,
-		Directions: []*board.Direction{},
 	},
 	{
 		State: &board.State{},
 		Direction: board.RIGHT,
-		Directions: []*board.Direction{},
 	},
 	{
 		State: &board.State{},
 		Direction: board.LEFT,
-		Directions: []*board.Direction{},
 	},
 }
 

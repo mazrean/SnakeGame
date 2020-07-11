@@ -6,5 +6,4 @@ import "github.com/mazrean/SnakeGame/snake/board"
 type Node struct {
 	State *board.State
 	Direction board.Direction
-	Directions []*board.Direction
 }

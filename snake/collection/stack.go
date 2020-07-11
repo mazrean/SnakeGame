@@ -22,7 +22,7 @@ func (s *Stack) Pop() (*Node, error) {
 		return nil, err
 	}
 
-	*s = (*s)[1:]
+	*s = (*s)[:len(*s)-1]
 
 	return v, nil
 }
@@ -34,7 +34,7 @@ func (s *Stack) Peek() (*Node, error) {
 		return nil, fmt.Errorf("Check Empty Error: %w", err)
 	}
 	if empty {
-		return nil, errors.New("Empty Queue")
+		return nil, errors.New("Empty Stack")
 	}
 
 	return (*s)[len(*s)-1], nil

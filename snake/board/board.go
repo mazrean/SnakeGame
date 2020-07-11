@@ -27,7 +27,7 @@ type Board struct {
 // State 盤面の構造体
 type State struct {
 	Turn int
-	Directions []Direction
+	Directions *[]Direction
 	Board *Board
 	Goal *Position
 	Snake *Snake
@@ -105,9 +105,6 @@ func (s *State) AbleDirections() ([]Direction, error) {
 
 // Move 状態の遷移
 func (s *State) Move(d Direction) (*State,error) {
-	stateValue := *s
-	state := &stateValue
-
 	nowHead,err := s.Snake.Head()
 	if err != nil {
 		return nil, fmt.Errorf("Get Head Error: %w", err)
@@ -128,15 +125,18 @@ func (s *State) Move(d Direction) (*State,error) {
 		newHead.X--
 	}
 
-	snake, err := state.Snake.Move(newHead)
+	snake, err := s.Snake.Move(newHead)
 	if err != nil {
 		return nil, fmt.Errorf("Snake Move Error: %w", err)
 	}
 
-	newDirections := append(s.Directions, d)
+	newDirections := append(*s.Directions, d)
+
+	stateValue := *s
+	state := &stateValue
 
 	state.Turn = s.Turn + 1
-	state.Directions = newDirections
+	state.Directions = &newDirections
 	state.Snake = snake
 
 	return state, nil

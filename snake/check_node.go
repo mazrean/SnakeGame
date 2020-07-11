@@ -8,13 +8,13 @@ import (
 )
 
 // NodeTask 各Nodeで行う処理
-func NodeTask(s *board.State, d board.Direction, c collection.Collection) (bool, []board.Direction, error) {
+func NodeTask(s *board.State, d board.Direction, c collection.Collection, deps ...int) (bool, *[]board.Direction, error) {
 	state, err := s.Move(d)
 	if err != nil {
 		return false, nil, fmt.Errorf("Snake Move Error: %w", err)
 	}
 
-	isGoal, err :=Check(state, c)
+	isGoal, err :=Check(state, c, deps...)
 	if err != nil {
 		return false, nil, err
 	}
@@ -23,7 +23,7 @@ func NodeTask(s *board.State, d board.Direction, c collection.Collection) (bool,
 }
 
 // Check Nodeのチェック
-func Check(s *board.State, c collection.Collection) (bool, error) {
+func Check(s *board.State, c collection.Collection, deps ...int) (bool, error) {
 	isGoal, err := s.IsGoal()
 	if err != nil {
 		return false, fmt.Errorf("Check Is Goal Error: %w", err)
@@ -32,6 +32,9 @@ func Check(s *board.State, c collection.Collection) (bool, error) {
 		return true, nil
 	}
 
+	if len(deps) != 0 && deps[0]<=s.Turn {
+		return false, nil
+	}
 	directions, err := s.AbleDirections()
 	if err != nil {
 		return false, fmt.Errorf("Get Able Directions Error: %w", err)
