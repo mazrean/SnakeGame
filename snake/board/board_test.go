@@ -1,6 +1,9 @@
 package board
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestStateIsGoal(t *testing.T) {
 	type testStateIsGoal struct {
@@ -253,27 +256,34 @@ func TestStateMove(t *testing.T)  {
 		state *State
 		direction Direction
 		expect *Snake
+		response *State
+		nextDirection *Direction
+		nextExpect *Snake
 		description string
 	}
 
+	state := &State{
+		Snake: &Snake{
+			&Position{
+				X: 0,
+				Y: 2,
+			},
+			&Position{
+				X: 1,
+				Y: 2,
+			},
+			&Position{
+				X: 1,
+				Y: 1,
+			},
+		},
+	}
+
+	up := UP
+	right := RIGHT
 	values := []*testState{
 		{
-			state: &State{
-				Snake: &Snake{
-					&Position{
-						X: 0,
-						Y: 2,
-					},
-					&Position{
-						X: 1,
-						Y: 2,
-					},
-					&Position{
-						X: 1,
-						Y: 1,
-					},
-				},
-			},
+			state: state,
 			direction: UP,
 			expect: &Snake{
 				&Position{
@@ -289,25 +299,25 @@ func TestStateMove(t *testing.T)  {
 					Y: 0,
 				},
 			},
+			nextDirection: &right,
+			nextExpect: &Snake{
+				&Position{
+					X: 1,
+					Y: 1,
+				},
+				&Position{
+					X: 1,
+					Y: 0,
+				},
+				&Position{
+					X: 2,
+					Y: 0,
+				},
+			},
 			description: "up move",
 		},
 		{
-			state: &State{
-				Snake: &Snake{
-					&Position{
-						X: 0,
-						Y: 2,
-					},
-					&Position{
-						X: 1,
-						Y: 2,
-					},
-					&Position{
-						X: 1,
-						Y: 1,
-					},
-				},
-			},
+			state: state,
 			direction: RIGHT,
 			expect: &Snake{
 				&Position{
@@ -321,6 +331,21 @@ func TestStateMove(t *testing.T)  {
 				&Position{
 					X: 2,
 					Y: 1,
+				},
+			},
+			nextDirection: &up,
+			nextExpect: &Snake{
+				&Position{
+					X: 1,
+					Y: 1,
+				},
+				&Position{
+					X: 2,
+					Y: 1,
+				},
+				&Position{
+					X: 2,
+					Y: 0,
 				},
 			},
 			description: "right move",
@@ -398,16 +423,33 @@ func TestStateMove(t *testing.T)  {
 	for _,v := range values {
 		res,err := v.state.Move(v.direction)
 		if err != nil {
-			t.Fatalf(v.description + " Error: %s", err.Error())
+			t.Fatalf(v.description + " Error(): %s", err.Error())
 		}
 
-		isEqual,err := v.expect.equal(res.Snake)
-		if err != nil {
-			t.Fatalf(v.description + " Error: %s", err.Error())
+		if res.Snake == v.state.Snake {
+			t.Fatal(v.description + " Same Pointer")
+		}
+		if !reflect.DeepEqual(res.Snake, v.expect) {
+			t.Fatalf(v.description + " Invalid Value: %#v", res.Snake)
 		}
 
-		if !isEqual {
-			t.Fatalf(v.description + " Unexpected Value: %#v", res.Snake)
+		v.response = res
+	}
+
+	for _,v := range values {
+		if v.nextDirection != nil && v.nextExpect != nil {
+			t.Logf("%+v %+v", v.nextDirection, v.nextExpect)
+			res,err := v.response.Move(*v.nextDirection)
+			if err != nil {
+				t.Fatalf(v.description + " Error: %+v", err)
+			}
+
+			if res.Snake == v.response.Snake {
+				t.Fatal(v.description + " Same Pointer(Next)")
+			}
+			if !reflect.DeepEqual(res.Snake, v.nextExpect) {
+				t.Fatalf(v.description + " Invalid Value(Next): %#v", res.Snake)
+			}
 		}
 	}
 }

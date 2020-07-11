@@ -26,26 +26,26 @@ func SingleSnake(searchType string, s *board.State) ([]board.Direction, error) {
 		return []board.Direction{}, nil
 	}
 	isEmpty := false
-	var interfaceNode interface{}
-	var nd *node
-	var ok bool
+	var nd *col.Node
+	var directions []board.Direction
 	for !isEmpty {
-		interfaceNode, err = collection.Pop()
+		nd, err = collection.Pop()
 		if err != nil {
-			return nil, fmt.Errorf("Collection Pop Error: %w", err)
-		}
-		nd, ok = interfaceNode.(*node)
-		if !ok {
-			return nil, errors.New("Unexpected Type Parse Error")
+			return nil, errors.New("Collection Pop Error")
 		}
 
-		isGoal, err = NodeTask(nd.state, nd.direction, collection)
+		isGoal, directions, err = NodeTask(nd.State, nd.Direction, collection)
 		if err != nil {
 			return nil, fmt.Errorf("NodeTask Error: %w", err)
 		}
 
 		if isGoal {
-			return nd.state.Directions, nil
+			return directions, nil
+		}
+
+		isEmpty, err = collection.Empty()
+		if err != nil {
+			return nil, fmt.Errorf("Collection Empty Error: %w", err)
 		}
 	}
 

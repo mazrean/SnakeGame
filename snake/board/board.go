@@ -138,8 +138,6 @@ func (s *State) Move(d Direction) (*State,error) {
 	state.Turn = s.Turn + 1
 	state.Directions = newDirections
 	state.Snake = snake
-	fmt.Println(s)
-	fmt.Println(state)
 
 	return state, nil
 }

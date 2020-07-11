@@ -6,17 +6,17 @@ import (
 )
 
 // Queue キューの構造体
-type Queue []interface{}
+type Queue []*Node
 
 // Push 値の追加
-func (q *Queue) Push(v interface{}) error {
+func (q *Queue) Push(v *Node) error {
 	*q = append(*q, v)
 
 	return nil
 }
 
 // Pop 値の取り出し&削除
-func (q *Queue) Pop() (interface{}, error) {
+func (q *Queue) Pop() (*Node, error) {
 	v, err := q.Peek()
 	if err != nil {
 		return nil, err
@@ -28,7 +28,7 @@ func (q *Queue) Pop() (interface{}, error) {
 }
 
 // Peek 値の取り出し
-func (q *Queue) Peek() (interface{}, error) {
+func (q *Queue) Peek() (*Node, error) {
 	empty, err := q.Empty()
 	if err != nil {
 		return nil, fmt.Errorf("Check Empty Error: %w", err)
@@ -48,4 +48,13 @@ func (q *Queue) Size() (int, error) {
 // Empty 空か
 func (q *Queue) Empty() (bool, error) {
 	return len(*q) ==0, nil
+}
+
+func (q *Queue) String() string {
+	s := ""
+	for i,v := range *q {
+		s += fmt.Sprintf("%d:%s\n%+v\n", i, v.Direction, v.State)
+	}
+
+	return s
 }

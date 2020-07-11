@@ -21,7 +21,9 @@ func (s *Snake) Search(p *Position) (bool, error) {
 
 // Move 蛇の移動
 func (s *Snake) Move(p *Position) (*Snake, error) {
-	snake := append((*s)[1:], p)
+	sk := make(Snake, len(*s))
+	_ = copy(sk, *s)
+	snake := append(sk[1:], p)
 
 	return &snake, nil
 }

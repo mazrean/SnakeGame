@@ -1,33 +1,53 @@
 package collection
 
 import (
+	"reflect"
 	"testing"
+
+	"github.com/mazrean/SnakeGame/snake/board"
 )
+
+var nodes = []*Node{
+	{
+		State: &board.State{},
+		Direction: board.UP,
+		Directions: []*board.Direction{},
+	},
+	{
+		State: &board.State{},
+		Direction: board.DOWN,
+		Directions: []*board.Direction{},
+	},
+	{
+		State: &board.State{},
+		Direction: board.RIGHT,
+		Directions: []*board.Direction{},
+	},
+	{
+		State: &board.State{},
+		Direction: board.LEFT,
+		Directions: []*board.Direction{},
+	},
+}
 
 func TestQueuePush(t *testing.T) {
 	type testQueue struct {
 		queue *Queue
-		value interface{}
+		value *Node
 		expect error
 		description string
 	}
 
 	values := []*testQueue{
 		{
-			queue: &Queue{0,1,2},
-			value: 3,
+			queue: &Queue{nodes[0],nodes[1],nodes[2]},
+			value: nodes[3],
 			expect: nil,
-			description: "int queue",
-		},
-		{
-			queue: &Queue{"a","b","c"},
-			value: "d",
-			expect: nil,
-			description: "string queue",
+			description: "normal queue",
 		},
 		{
 			queue: &Queue{},
-			value: 0,
+			value: nodes[0],
 			expect: nil,
 			description: "empty queue",
 		},
@@ -45,25 +65,18 @@ func TestQueuePop(t *testing.T) {
 	type testQueue struct {
 		queue *Queue
 		exptSize int
-		exptVal interface{}
+		exptVal *Node
 		exptErr bool
 		description string
 	}
 
 	values := []*testQueue{
 		{
-			queue: &Queue{0,1,2},
+			queue: &Queue{nodes[0],nodes[1],nodes[2]},
 			exptSize: 2,
-			exptVal: 0,
+			exptVal: nodes[0],
 			exptErr: false,
-			description: "int queue",
-		},
-		{
-			queue: &Queue{"a","b","c"},
-			exptSize: 2,
-			exptVal: "a",
-			exptErr: false,
-			description: "string queue",
+			description: "normal queue",
 		},
 		{
 			queue: &Queue{},
@@ -84,17 +97,11 @@ func TestQueuePop(t *testing.T) {
 			t.Fatal(v.description + " size")
 		}
 
-		switch x := v.exptVal.(type) {
-		case int:
-			resVal, ok := res.(int)
-			if !ok || resVal != x {
-				t.Fatalf(v.description + " %d", resVal)
-			}
-		case string:
-			resVal, ok := res.(string)
-			if !ok || resVal != x {
-				t.Fatalf(v.description + " %s", resVal)
-			}
+		if res != v.exptVal {
+			t.Fatalf(v.description + " Pointer Invalid: %+v", res)
+		}
+		if !reflect.DeepEqual(res, v.exptVal) {
+			t.Fatalf(v.description + " Value Invalid: %+v", res)
 		}
 	}
 }
@@ -103,25 +110,18 @@ func TestQueuePeek(t *testing.T) {
 	type testQueue struct {
 		queue *Queue
 		exptSize int
-		exptVal interface{}
+		exptVal *Node
 		exptErr bool
 		description string
 	}
 
 	values := []*testQueue{
 		{
-			queue: &Queue{0,1,2},
+			queue: &Queue{nodes[0],nodes[1],nodes[2]},
 			exptSize: 3,
-			exptVal: 0,
+			exptVal: nodes[0],
 			exptErr: false,
-			description: "int queue",
-		},
-		{
-			queue: &Queue{"a","b","c"},
-			exptSize: 3,
-			exptVal: "a",
-			exptErr: false,
-			description: "string queue",
+			description: "normal queue",
 		},
 		{
 			queue: &Queue{},
@@ -135,24 +135,18 @@ func TestQueuePeek(t *testing.T) {
 	for _,v := range values {
 		res, err := v.queue.Peek()
 		if (err != nil) != v.exptErr {
-			t.Fatalf("Unexpect Error: %s", err.Error())
+			t.Fatalf("Unexpect Error: %+v", err)
 		}
 
 		if len(*v.queue) != v.exptSize {
 			t.Fatal(v.description + " size")
 		}
 
-		switch x := v.exptVal.(type) {
-		case int:
-			resVal, ok := res.(int)
-			if !ok || resVal != x {
-				t.Fatalf(v.description + " %d", resVal)
-			}
-		case string:
-			resVal, ok := res.(string)
-			if !ok || resVal != x {
-				t.Fatalf(v.description + " %s", resVal)
-			}
+		if res != v.exptVal {
+			t.Fatalf(v.description + " Pointer Invalid: %+v", res)
+		}
+		if !reflect.DeepEqual(res, v.exptVal) {
+			t.Fatalf(v.description + " Value Invalid: %+v", res)
 		}
 	}
 }
@@ -166,9 +160,9 @@ func TestQueueSize(t *testing.T) {
 
 	values := []*testQueue{
 		{
-			queue: &Queue{0,1},
+			queue: &Queue{nodes[0],nodes[1]},
 			expect: 2,
-			description: "normal int queue",
+			description: "normal normal queue",
 		},
 		{
 			queue: &Queue{},
@@ -198,9 +192,9 @@ func TestQueueEmpty(t *testing.T) {
 
 	values := []*testQueue{
 		{
-			queue: &Queue{0,1},
+			queue: &Queue{nodes[0],nodes[1]},
 			expect: false,
-			description: "normal int queue",
+			description: "normal normal queue",
 		},
 		{
 			queue: &Queue{},

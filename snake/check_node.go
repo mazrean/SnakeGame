@@ -13,7 +13,6 @@ func NodeTask(s *board.State, d board.Direction, c collection.Collection) (bool,
 	if err != nil {
 		return false, nil, fmt.Errorf("Snake Move Error: %w", err)
 	}
-	fmt.Printf("%#v\n%#v\n", s, state)
 
 	isGoal, err :=Check(state, c)
 	if err != nil {
@@ -39,9 +38,9 @@ func Check(s *board.State, c collection.Collection) (bool, error) {
 	}
 
 	for _,d := range directions {
-		node := &node{
-			state: s,
-			direction: d,
+		node := &collection.Node{
+			State: s,
+			Direction: d,
 		}
 		err = c.Push(node)
 		if err != nil {
