@@ -3,6 +3,8 @@ package snake
 import (
 	"errors"
 	"fmt"
+	"os"
+	"runtime/pprof"
 
 	"github.com/mazrean/SnakeGame/snake/board"
 	col "github.com/mazrean/SnakeGame/snake/collection"
@@ -33,6 +35,8 @@ func SingleSnake(searchType string, s *board.State) ([]board.Direction, error) {
 	switch searchType {
 	case "bfs":
 		collection = new(col.Queue)
+	case "dfs":
+		collection = new(col.Stack)
 	default:
 		return nil, errors.New("Invalid Search Type")
 	}
@@ -67,6 +71,8 @@ func SingleSnake(searchType string, s *board.State) ([]board.Direction, error) {
 			return nil, fmt.Errorf("Collection Empty Error: %w", err)
 		}
 	}
+
+	
 
 	return nil, errors.New("Answer Not Found")
 }
