@@ -2,6 +2,7 @@ package board
 
 import (
 	"fmt"
+	"reflect"
 )
 
 // Direction 移動の種類
@@ -33,6 +34,13 @@ type State struct {
 	Snake *Snake
 }
 
+type visitSnake struct {
+	snake *Snake
+	depth int
+}
+
+var visited = []visitSnake{}
+
 // IsGoal ゴールに到達したかのチェック
 func (s *State) IsGoal() (bool, error) {
 	head, err := s.Snake.Head()
@@ -40,11 +48,23 @@ func (s *State) IsGoal() (bool, error) {
 		return false, fmt.Errorf("Get Head Error: %w", err)
 	}
 
-	return s.Goal.equal(head), nil
+	if !s.Goal.equal(head) {
+		return false, nil
+	}
+
+	visited = []visitSnake{}
+
+	return true, nil
 }
 
 // AbleDirections 移動可能な方向の配列を返す
 func (s *State) AbleDirections() ([]Direction, error) {
+	for _,v := range visited {
+		if reflect.DeepEqual(v.snake, s.Snake) && v.depth < s.Turn {
+			return []Direction{}, nil
+		}
+	}
+
 	head,err := s.Snake.Head()
 	if err != nil {
 		return nil, fmt.Errorf("Get Head Error: %w", err)
@@ -84,23 +104,28 @@ func (s *State) AbleDirections() ([]Direction, error) {
 			},
 		}
 
-		directions := make([]Direction, 0, 4)
-		for _,headDir := range headDirs {
-			if headDir.head.X >= s.Board.Width || headDir.head.X < 0 || headDir.head.Y >= s.Board.Height || headDir.head.Y < 0 {
-				continue
-			}
-
-			isCollide, err := s.Snake.Search(headDir.head)
-			if err != nil {
-				return nil, fmt.Errorf("Snake Search Error: %w", err)
-			}
-
-			if !isCollide {
-				directions = append(directions, headDir.direction)
-			}
+	directions := make([]Direction, 0, 4)
+	for _,headDir := range headDirs {
+		if headDir.head.X >= s.Board.Width || headDir.head.X < 0 || headDir.head.Y >= s.Board.Height || headDir.head.Y < 0 {
+			continue
 		}
 
-		return directions, nil
+		isCollide, err := s.Snake.Search(headDir.head)
+		if err != nil {
+			return nil, fmt.Errorf("Snake Search Error: %w", err)
+		}
+
+		if !isCollide {
+			directions = append(directions, headDir.direction)
+		}
+	}
+
+	visited = append(visited, visitSnake{
+		snake: s.Snake,
+		depth: s.Turn,
+	})
+
+	return directions, nil
 }
 
 // Move 状態の遷移
