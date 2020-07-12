@@ -6,6 +6,7 @@ import (
 	"os"
 	"runtime/pprof"
 	"strconv"
+	"time"
 
 	"github.com/mazrean/SnakeGame/snake"
 	"github.com/mazrean/SnakeGame/snake/board"
@@ -13,7 +14,6 @@ import (
 )
 
 func main() {
-
 	flag.Parse()
 	mode := flag.Arg(0)
 	switch mode {
@@ -44,10 +44,13 @@ func main() {
 		pprof.StartCPUProfile(cpuf)
 		defer pprof.StopCPUProfile()
 
+		start := time.Now();
 		directions, err := snake.SingleSnake(searchType, state)
 		if err != nil {
 			panic(fmt.Errorf("Search Answer Error: %w", err))
 		}
+		end := time.Now();
+		fmt.Printf("%dms %dμs\n",(end.Sub(start)).Milliseconds(),(end.Sub(start)).Microseconds())
 
 		fmt.Println(directions)
 	case "measure":
@@ -62,9 +65,7 @@ func main() {
 		}
 
 		types := map[string]int{
-			"A*": 10000,
-			"iddfs": 10,
-			"bfs": 10,
+			"A*": 1,
 		}
 		state, err := measure.Generate(snakeLen, n)
 		if err != nil {

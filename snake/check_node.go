@@ -9,6 +9,7 @@ import (
 
 // NodeTask 各Nodeで行う処理
 func NodeTask(s *board.State, d board.Direction, c collection.Collection, deps ...int) (bool, *[]board.Direction, error) {
+	nodeCount++
 	state, err := s.Move(d)
 	if err != nil {
 		return false, nil, fmt.Errorf("Snake Move Error: %w", err)

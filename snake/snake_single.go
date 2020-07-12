@@ -11,9 +11,13 @@ import (
 
 // NOT_FOUND 答えが見つからなかったときのエラー
 var NOT_FOUND = errors.New("Answer Not Found")
+var nodeCount = 0
 
 // SingleSnake シングルスレッドのヘビゲームソルバー
 func SingleSnake(searchType string, s *board.State, deps ...int) (*[]board.Direction, error) {
+	defer func() {
+		fmt.Println(nodeCount)
+	}()
 	var collection col.Collection
 	switch searchType {
 	case "bfs":
@@ -67,8 +71,6 @@ func SingleSnake(searchType string, s *board.State, deps ...int) (*[]board.Direc
 			return nil, fmt.Errorf("Collection Empty Error: %w", err)
 		}
 	}
-
-	
 
 	return nil, NOT_FOUND
 }
