@@ -1,8 +1,8 @@
 package measure
 
 import (
-	"fmt"
 	"math/rand"
+	"reflect"
 	"time"
 
 	"github.com/mazrean/SnakeGame/snake/board"
@@ -42,9 +42,12 @@ func Generate(snakeLen int, n int) (*board.State, error) {
 
 		pos := make([]*board.Position, 0, 4)
 		for _,v := range positions {
-			isThere, err := snake.Search(v)
-			if err != nil {
-				return nil, fmt.Errorf("Snake Search Error: %w", err)
+			var isThere bool
+			for _,val := range snake {
+				if reflect.DeepEqual(v, val) {
+					isThere = true
+					break
+				}
 			}
 
 			if v.X < 0 || v.X >= n || v.Y < 0 || v.Y >= n || isThere {
